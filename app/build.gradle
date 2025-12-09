@@ -1,6 +1,8 @@
 plugins {
     id 'java'
     id "org.sonarqube" version "7.2.0.6526"
+    id 'application'
+    id "com.github.johnrengelman.shadow" version "8.1.1"
 }
 
 group = 'hexlet.code'
@@ -8,6 +10,10 @@ version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+}
+
+application {
+    mainClass = "hexlet.code.App"
 }
 
 sonar {
@@ -20,6 +26,10 @@ sonar {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation 'io.javalin:javalin:6.7.0'
+    implementation 'org.slf4j:slf4j-simple:2.0.17'
+    implementation 'com.zaxxer:HikariCP:5.0.1'
+    implementation 'com.h2database:h2:2.2.220'
 }
 
 test {
