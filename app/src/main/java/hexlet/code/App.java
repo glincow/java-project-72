@@ -37,6 +37,7 @@ public class App {
         Logger logger = LoggerFactory.getLogger(App.class);
 
         var hikariConfig = new HikariConfig();
+        hikariConfig.setDriverClassName("org.postgresql.Driver");
         hikariConfig.setJdbcUrl(getDatabaseUrl());
 
         var dataSource = new HikariDataSource(hikariConfig);
