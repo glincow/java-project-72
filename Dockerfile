@@ -2,13 +2,16 @@ FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
-COPY app/ .
+COPY app/gradle gradle
+COPY app/gradlew .
+COPY app/build.gradle .
+COPY app/settings.gradle .
 
-RUN rm -rf build .gradle
-RUN ./gradlew clean shadowJar --no-daemon --no-build-cache
+RUN ./gradlew --no-daemon dependencies
 
-# Verify PostgreSQL driver is in the JAR
-RUN jar tf build/libs/app-1.0-SNAPSHOT-all.jar | grep "org/postgresql/Driver.class" || (echo "Driver not found!" && exit 1)
+COPY app/src src
+
+RUN ./gradlew --no-daemon shadowJar
 
 ENV JAVA_OPTS="-Xmx512M -Xms512M"
 EXPOSE 7070
