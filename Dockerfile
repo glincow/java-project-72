@@ -4,7 +4,11 @@ WORKDIR /app
 
 COPY app/ .
 
-RUN ./gradlew clean shadowJar --no-daemon
+RUN rm -rf build .gradle
+RUN ./gradlew clean shadowJar --no-daemon --no-build-cache
+
+# Verify PostgreSQL driver is in the JAR
+RUN jar tf build/libs/app-1.0-SNAPSHOT-all.jar | grep "org/postgresql/Driver.class" || (echo "Driver not found!" && exit 1)
 
 ENV JAVA_OPTS="-Xmx512M -Xms512M"
 EXPOSE 7070
